@@ -1,0 +1,8 @@
+# Obsidian workspace / cache (keep the notes, drop the local state)
+.obsidian/workspace*
+.obsidian/cache
+.trash/
+
+# OS cruft
+.DS_Store
+Thumbs.db
