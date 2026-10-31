@@ -23,9 +23,11 @@ The map of content for this vault. New here? Follow the order below.
 - [[FS01-File-Server]] — file server / future iSCSI target
 - [[CLIENT01-Windows11]] — Windows 11 management client
 - [[LX01-Ubuntu-AD-Join]] — Ubuntu Server joined to AD (hybrid identity)
+- [[CDC01-Second-Forest]] — a second forest (`corp.local`) to build trusts against
 
 ## 4. Core services
 - [[Active-Directory]] — forest, replication, FSMO, Sites & Services, RODC
+- [[Forest-Trusts]] — conditional forwarders, forest trust, selective authentication, one-way admin-forest pattern
 - [[DNS-and-DHCP]] — AD-integrated DNS, forwarders, DHCP scope + authorization
 - [[Time-and-NTP]] — the domain time hierarchy (and the #1 time trap)
 - [[Update-and-Debloat]] — taming Windows Update + stripping bloat

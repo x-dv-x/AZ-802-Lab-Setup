@@ -5,6 +5,7 @@ tags: [az-802, planning, networking, topology]
 
 ## Network
 - **Domain:** `lab.local`
+- **Second forest:** `corp.local` on [[CDC01-Second-Forest]], only for trust labs ([[Forest-Trusts]])
 - **Subnet:** `10.10.10.0/24`
 - **Lab network (libvirt):** `az802-lab`, NAT-forwarded, **no libvirt DHCP** (the DC serves DHCP)
 - **Gateway (libvirt):** `10.10.10.1` — provides internet egress for the guests
@@ -14,12 +15,12 @@ tags: [az-802, planning, networking, topology]
            |
       [ libvirt NAT ]  10.10.10.1
            |
-   ========+====================  az802-lab  (10.10.10.0/24)
-     |        |        |        |
-   DC01     DC02     FS01     CLIENT01
-  .10/PDC   .11      .20      DHCP .100-200
-  DNS/DHCP  DNS    file/iSCSI  Win11 mgmt
-  NTP src
+   ========+===================================  az802-lab  (10.10.10.0/24)
+     |        |        |        |              |
+   DC01     DC02     FS01     CLIENT01       CDC01
+  .10/PDC   .11      .20      DHCP .100-200  .12
+  DNS/DHCP  DNS    file/iSCSI  Win11 mgmt    corp.local
+  NTP src                                    (2nd forest)
 ```
 
 ## IP plan
@@ -31,6 +32,7 @@ tags: [az-802, planning, networking, topology]
 | [[FS01-File-Server]] | 10.10.10.20 (static) | file server, iSCSI target |
 | [[CLIENT01-Windows11]] | DHCP (.100–200) | RSAT / Windows Admin Center |
 | [[LX01-Ubuntu-AD-Join]] | 10.10.10.30 (static) | Ubuntu Server, AD-joined via SSSD |
+| [[CDC01-Second-Forest]] | 10.10.10.12 (static) | forest root DC + DNS for `corp.local` (trust labs) |
 
 ## RAM budget (32 GB host)
 Reserve ~5 GB for Fedora → ~26 GB for VMs.
@@ -42,6 +44,7 @@ Reserve ~5 GB for Fedora → ~26 GB for VMs.
 | FS01 | Core/GUI | 4 GB | storage + cluster |
 | NODE1/NODE2 | Core | 3 GB ea | HA phase |
 | CLIENT01 | Win 11 | 4 GB | management |
+| CDC01 | GUI | 2 GB | trust labs (with `lab up storage`) |
 
 ## LAB Scripts 
 

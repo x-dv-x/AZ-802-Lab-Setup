@@ -12,7 +12,7 @@ tags: [az-802, vms, virt-install, iso]
 ```bash
 osinfo-query os | grep -iE 'win2k2|win11'   # pick the closest code; win2k22 if win2k25 absent
 
-virt-install \
+virt-install --connect qemu:///system \
   --name DC01 --osinfo win2k25 \
   --memory 4096 --vcpus 2 --cpu host-passthrough --machine q35 --boot uefi \
   --disk path=/mnt/az802lab/DC01.qcow2,size=50,bus=virtio,format=qcow2 \
@@ -39,7 +39,10 @@ On first boot the UEFI menu lists several entries:
 See the full symptom/fix in [[Troubleshooting-Log]].
 
 ## Tip: build one, clone the rest
-Install a **Server Core** "golden" VM, snapshot it activated, then clone for DC02/FS01/nodes. Remember to set the **timezone** on every clone — it is *not* inherited or synced ([[Time-and-NTP]]).
+Install a **Server Core** "golden" VM, **generalize it with `sysprep /generalize /oobe /shutdown`**, then clone for DC02/FS01/nodes. Without sysprep every clone has the same machine SID, which matters most for anything you'll promote to a DC. Remember to set the **timezone** on every clone — it is *not* inherited or synced ([[Time-and-NTP]]).
+
+> [!WARNING]
+> Clone the **golden image**, never an existing **DC**. A DC clone carries that DC's AD identity. See [[CDC01-Second-Forest]].
 
 ## First-boot CPU looks insane?
 That's normal post-install churn (Windows Update, Defender's first scan, `TiWorker`, `SearchIndexer`) — self-limiting, leave it ~20–60 min. Details + the Hyper-V enlightenment tweak in [[Troubleshooting-Log]].

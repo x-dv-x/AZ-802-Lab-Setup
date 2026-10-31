@@ -4,6 +4,7 @@ tags: [az-802, services, active-directory, fsmo, replication]
 # Active Directory — Forest, Replication, FSMO, Sites, RODC
 
 Domain: `lab.local` · DCs: [[DC01-Primary-DC]], [[DC02-Second-DC]]
+Trusts with a second forest: [[CDC01-Second-Forest]] → [[Forest-Trusts]]
 
 ## Replication
 ```powershell
